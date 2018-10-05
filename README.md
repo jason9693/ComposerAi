@@ -1,4 +1,12 @@
-# Base Repository:
+# ComposerAi-Tensorflow
+* This repository is an Ai Framework for Compose Piano Music.
+
+## Dependency
+* Music21
+* h5py
+* tensorflow
+
+## Base Repository:
     from https://github.com/Skuldur/Classical-Piano-Composer
 
 ## Usage:
