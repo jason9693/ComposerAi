@@ -4,3 +4,6 @@
 ## Usage:
     1. set params.py
     2. $ python generating.py
+
+## See Also:
+    https://colab.research.google.com/drive/18fmUKyEyPhyogtRxU5OnRcDLQLQShChc
