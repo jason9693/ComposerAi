@@ -48,7 +48,7 @@ class ComposeNetwork:
             )
             self.note_loss = tf.reduce_mean(self.note_loss)
 
-            self.offset_logits = tf.squeeze(self.__fc_layer__(L2, 1, 256, name='offset', activations=[tf.nn.relu, None]))
+            self.offset_logits = tf.squeeze(self.__fc_layer__(L2, 1, 256, name='offset', activations=[None, tf.nn.relu]))
             self.offset_out = self.offset_logits
             self.offset_loss = tf.square(self.offset_logits-self.y[:,1])
             self.offset_loss = tf.reduce_mean(self.offset_loss)
@@ -95,7 +95,7 @@ class ComposeNetwork:
 
 if __name__ == '__main__':
     mock_x = [[[0],[0],[0]],[[0],[0],[0]],[[0],[0],[0]]]
-    mock_y = [1,2,5]
+    mock_y = [[1,1],[2,2],[5,5]]
     net = ComposeNetwork(
         input_shape=[3,1],
         num_classes=6,

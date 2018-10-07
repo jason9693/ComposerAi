@@ -46,7 +46,7 @@ def generate_notes(network, network_input, pitchnames, n_vocab, product_length=5
 
     pattern = network_input[start]
     prediction_output = []
-
+    offset_output = []
     # generate 500 notes
     for note_index in range(product_length):
         prediction_input = np.reshape(pattern, (1, len(pattern), 1))
@@ -54,13 +54,14 @@ def generate_notes(network, network_input, pitchnames, n_vocab, product_length=5
 
         prediction = network.infer(prediction_input)
 
-        index = prediction[0]
+        index = prediction[0][0]
+        offset_output.append(prediction[1])
         result = int_to_note[index]
         prediction_output.append(result)
 
         pattern.append(index)
         pattern = pattern[1:len(pattern)]
 
-    return prediction_output
+    return (prediction_output, offset_output)
 
 
