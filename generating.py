@@ -4,12 +4,12 @@ import params as par
 import tensorflow as tf
 
 if __name__ == '__main__':
-    notes = midi_utils.load_notes(par.notes_save_path)
+    notes,offsets = midi_utils.load_notes(par.notes_save_path)
     pitchnames = midi_utils.get_pitchnames(notes)
     n_vocab = len(set(notes))
 
     network_input, normed_network_input, _ = \
-        midi_utils.prepare_sequence(notes, pitchnames, n_vocab, par.sequence_length)
+        midi_utils.prepare_sequence(notes,offsets, pitchnames, n_vocab, par.sequence_length)
 
     sess = tf.Session()
     model = ComposeNetwork(list(normed_network_input.shape[1:]),n_vocab,sess=sess,ckpt_path=par.ckpt_path)

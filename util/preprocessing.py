@@ -5,14 +5,15 @@ import glob
 import numpy as np
 import util.midi_utils as midi_utils
 
-def get_notes(midi_path, note_save_path,offset_save_path = 'data/offset'):
+def get_notes_and_offsets(midi_path, note_save_path,offset_save_path = 'data/offset'):
     """ Get all the notes and chords from the midi files in the ./midi_songs directory """
     notes = []
     offset_list = []
     try:
         notes = midi_utils.load_notes(note_save_path)
+        offsets = midi_utils.load_offsets(offset_save_path)
         print(notes)
-        return notes
+        return notes, offsets
     except:
         pass
     for file in glob.glob(midi_path+"/*.mid"):
@@ -25,6 +26,7 @@ def get_notes(midi_path, note_save_path,offset_save_path = 'data/offset'):
         prev_offset = 0
         try: # file has instrument parts
             s2 = instrument.partitionByInstrument(midi)
+            #print(s2.parts)
             notes_to_parse = s2.parts[0].recurse()
         except: # file has notes in a flat structure
             notes_to_parse = midi.flat.notes
@@ -39,12 +41,12 @@ def get_notes(midi_path, note_save_path,offset_save_path = 'data/offset'):
             elif isinstance(element, chord.Chord):
                 notes.append('.'.join(str(n) for n in element.normalOrder))
 
-    # with open(offset_save_path, 'wb') as filepath:
-    #      pickle.dump(offset_list, filepath)
+    with open(offset_save_path, 'wb') as filepath:
+         pickle.dump(offset_list, filepath)
     with open(note_save_path, 'wb') as filepath:
         pickle.dump(notes, filepath)
 
-    return notes
+    return (notes, offset_list)
 
 # def prepare_sequence(notes, n_vocab):
 #     sequence_length = par.sequence_length
@@ -77,4 +79,4 @@ def __onehot__(input: list, dim: int = 2):
     return out
 
 if __name__ == '__main__':
-    get_notes('../data/midi','../data/note','../data/offset')
+    get_notes('../data/midi','../data/notes','../data/offset')

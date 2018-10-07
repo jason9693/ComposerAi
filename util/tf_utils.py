@@ -7,15 +7,8 @@ def LSTMlayer(input, hidden_size, batch_size,cycle=0,gpu_mode=False):
 
     lstm_cell = contrib.rnn.LSTMBlockFusedCell(hidden_size,name='lstm'+str(cycle))
 
-        #lstm_cell = contrib.rnn.BasicLSTMCell(hidden_size, name='lstm'+str(cycle))
-
-    #init_state = lstm_cell.zero_state(batch_size,dtype=tf.float32)
     outs,state = lstm_cell(input,dtype=tf.float32)
-    #tf.nn.dynamic_rnn(lstm_cell,
-                                    # input,
-                                    # initial_state=init_state,
-                                    # dtype=tf.float32
-                                    # )
+
     return (outs, state)
 
 def Dense(input, output_shape, name='dense' ,activation=None):
